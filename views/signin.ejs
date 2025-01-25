@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("./partials/head") %>
+    <title>Sign In</title>
+    <style>
+      body {
+        background-color: #f4f7fa;
+        font-family: 'Arial', sans-serif;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+      }
+      .form-container {
+        max-width: 400px;
+        width: 100%;
+        background-color: white;
+        padding: 30px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+      }
+      h1 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #333;
+      }
+      .form-label {
+        font-weight: bold;
+      }
+      .form-control {
+        border-radius: 5px;
+      }
+      .form-footer {
+        text-align: center;
+        margin-top: 20px;
+      }
+      .form-footer a {
+        color: #007bff;
+        text-decoration: none;
+      }
+      .form-footer a:hover {
+        text-decoration: underline;
+      }
+      .btn-primary {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="form-container">
+      <h1>Sign In</h1>
+      <form action="/signin" method="post">
+        <div class="mb-3">
+          <label for="email" class="form-label">Email address</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            name="email"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            name="password"
+            required
+          />
+        </div>
+
+        <div class="form-footer">
+          <p>Not signed up yet? <a href="/signup">Sign Up</a></p>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+
+    <%- include("./partials/scripts") %>
+  </body>
+</html>

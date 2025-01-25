@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Document</title>
+    <style>
+      nav {
+        display: flex;
+        justify-content: space-between;
+        background-color: black;
+        align-items: center;
+        color: white;
+        padding: 10px 20px;
+      }
+
+      ul li {
+        display: inline-block;
+      }
+
+      li a {
+        text-decoration: none;
+        color: white;
+        font-size: 22px;
+        margin: 0px 12px;
+        position: relative;
+        color: grey;
+      }
+
+      #lgBtn {
+        border: none;
+        font-size: 16px;
+        border-radius: 6px;
+        padding: 8px 16px;
+        color: white;
+        background-color: red;
+      }
+
+      #s1 {
+        color: rgb(255, 67, 67);
+        font-size: 28px;
+      }
+      #s2 {
+        font-size: 28px;
+      }
+
+      nav a:hover {
+        color: #fff;
+      }
+
+      a::before {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        width: 0%;
+        height: 3px;
+        background-color: #ee0653;
+        transition: all 0.5s;
+      }
+
+      a:hover::before {
+        width: 100%;
+      }
+
+      .mode-btn {
+        border: none;
+        font-size: 16px;
+        border-radius: 6px;
+        padding: 8px 16px;
+        color: white;
+        background-color: #007bff;  
+      }
+
+      .buttons-div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <h1 class="logo">
+          <span id="s1">Note</span> <span id="s2">Master</span>
+        </h1>
+
+        <ul>
+          <li><a href="/notes/home">Home</a></li>
+          <li><a href="/notes/add-note">Add Note</a></li>
+          <li><a href="/about">About Us</a></li>
+          <li><a href="/contact">Contact Us</a></li>
+        </ul>
+
+        <div class="buttons-div">
+          <button class="mode-btn" id="toggle-mode">Dark Mode</button>
+          <form action="/logout" method="get">
+            <button id="lgBtn" type="submit">Logout</button>
+          </form>
+        </div>
+      </nav>
+    </header>
+  </body>
+</html>

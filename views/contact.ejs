@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("./partials/head") %>
+    <title>Contact Us - Note Master</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      #hd1 {
+        color: #007bff;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+
+      textarea {
+        height: 150px;
+      }
+
+      button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <%- include("./partials/navbar") %>
+    <div class="container">
+      <h1 id="hd1">Contact Us</h1>
+      <form>
+        <input
+          id="name"
+          type="text"
+          name="name"
+          placeholder="Your Name"
+          required
+        />
+        <input
+          id="email"
+          type="email"
+          name="email"
+          placeholder="Your Email"
+          required
+        />
+        <textarea
+          id="msg"
+          name="message"
+          placeholder="Your Message"
+          required
+        ></textarea>
+        <button id="btn" type="submit">Send Message</button>
+      </form>
+    </div>
+
+    <%- include("./partials/scripts") %>
+
+    <script>
+      const btn = document.querySelector('#btn');
+      btn.addEventListener('click', async () => {
+        const name = document.querySelector('#name').value;
+        const email = document.querySelector('#email').value;
+        const msg = document.querySelector('#msg').value;
+
+        const response = await fetch("/contact", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({name, email, msg})
+        })
+
+        console.log("Response = " + response);
+        console.log("status = " + response.status);
+
+        if(response.ok) {
+          const jsonResponse = await response.json();
+
+          document.querySelector('#name').value = "";
+          document.querySelector('#email').value = "";
+          document.querySelector('#msg').value = "";
+          alert(jsonResponse.msg);
+        }
+      })
+    </script>
+  </body>
+</html>
