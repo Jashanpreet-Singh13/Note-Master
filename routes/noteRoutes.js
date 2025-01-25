@@ -21,8 +21,7 @@ router.post("/signup", async (req, res) => {
     });
     const response = await user.save();
     console.log("User saved");
-    req.session.user = username;
-    res.status(200).redirect("/");
+    res.status(200).redirect("/signin");
   } catch (err) {
     res.status(500).json({ err: "Server Error" });
   }
