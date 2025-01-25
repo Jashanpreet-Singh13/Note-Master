@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("./partials/head") %>
+    <title>Note Master</title>
+    <style>
+        nav {
+            border-bottom: 2px solid white;
+        }
+        .box {
+            padding: 40px 30px;
+            height: 400px;
+            width: 1200px;
+            margin: 70px auto;
+        }
+
+        .hd1 {
+            font-size: 70px;
+        }
+
+        .hd2 {
+            font-size: 58px;
+        }
+
+        .hd3 {
+            font-size: 40px;
+        }
+    </style>
+</head>
+<body>
+    
+    <%- include("./partials/navbar") %>
+
+    <div class="box">
+        <h1 class="hd1">User: <%= user %></h1>
+        <h2 class="hd2">Welcome to Home Page</h2>
+        <h3 class="hd3">If you want to view your notes click here: <a href="/notes/home">View Notes</a></h3>
+        <h3 class="hd3">If you want to add notes click here: <a href="/notes/add-note">Add Note</a></h3>
+    </div>
+    
+
+    <%- include("./partials/scripts") %>
+</body>
+</html>
