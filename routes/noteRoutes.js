@@ -5,6 +5,7 @@ const { isAuthenticated } = require("../middlewares/auth");
 
 const User = require("../models/user");
 const Note = require("../models/note");
+const Contact = require("../models/contact");
 
 router.get("/signup", (req, res) => {
     res.render('signup');
@@ -123,7 +124,7 @@ router.post("/notes/update/:id", async (req, res) => {
 router.get("/notes/search", async (req, res) => {
     const query = req.query.q;
     const regex = new RegExp(`^${query}`, "i");
-    const notes = await Note.find({title: regex});
+    const notes = await Note.find({title: regex, username: req.session.user});
     console.log("Search = " + notes);
     res.status(200).json(notes);
 })
@@ -147,12 +148,11 @@ router.get("/about", isAuthenticated, (req, res) => {
   res.render('about');
 })
 
-router.post("/contact", (req, res) => {
+router.post("/contact", async (req, res) => {
+
   const { name, email, msg } = req.body;
-  console.log(`Contact form submitted:
-  Name: ${name}
-  Email: ${email}
-  Message: ${msg}`);
+  const newContactMsg = new Contact({name, email, msg});
+  newContactMsg.save();
   res.status(200).json({msg: "Message Sent Successfully"});
 });
 
