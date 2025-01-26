@@ -53,7 +53,7 @@
   <body>
     <div class="form-container">
       <h1>Sign In</h1>
-      <form action="/signin" method="post">
+      <form id="form" action="/signin" method="post">
         <div class="mb-3">
           <label for="email" class="form-label">Email address</label>
           <input
@@ -77,11 +77,46 @@
 
         <div class="form-footer">
           <p>Not signed up yet? <a href="/signup">Sign Up</a></p>
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button id="btn" type="submit" class="btn btn-primary">Submit</button>
         </div>
       </form>
     </div>
 
     <%- include("./partials/scripts") %>
+
+
+    <script>
+      document.getElementById('form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        let email = document.getElementById('email').value.trim();
+        let password = document.getElementById('password').value.trim();
+
+        if(!email || !password) {
+          alert('All fields are required');
+          return;
+        }
+
+        let response = await fetch("/signin", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({email, password})
+        })
+
+        let data = await response.json();
+
+        if(response.ok) {
+          document.getElementById('email').value = "";
+          document.getElementById('password').value = "";
+          alert(data.msg);
+          window.location.href = "/";
+        } else {
+          alert(data.msg);
+        }
+
+      })
+    </script>
   </body>
 </html>

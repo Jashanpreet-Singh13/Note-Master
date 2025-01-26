@@ -117,8 +117,14 @@
 
       btn.addEventListener("click", async () => {
         try {
-          const title = document.querySelector("#title").value;
-          const content = document.querySelector("#content").value;
+          const title = document.querySelector("#title").value.trim();
+          const content = document.querySelector("#content").value.trim();
+
+          if(!title || !content) {
+            alert('All fields are required');
+            return;
+          }
+
           const response = await fetch("/notes/add-note", {
             method: "POST",
             headers: {
@@ -133,7 +139,6 @@
             document.querySelector("#title").value = "";
             document.querySelector("#content").value = "";
             alert(jsonResponse.msg);
-            console.log("Data: ", jsonResponse.note);
           } else {
             alert(jsonResponse.err);
           }

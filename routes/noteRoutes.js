@@ -14,16 +14,26 @@ router.get("/signup", (req, res) => {
 router.post("/signup", async (req, res) => {
   try {
     const { username, email, password } = req.body;
+    
+    const existingUsername = await User.findOne({username: username});
+    if(existingUsername) {
+      return res.status(400).json({msg: "Username already taken"});
+    }
+
+    const existingEmail = await User.findOne({email: email});
+    if(existingEmail) {
+      return res.status(400).json({msg: "Already signed up with this email"});
+    }
+
     const user = new User({
       username: username,
       email: email,
       password: password,
     });
-    const response = await user.save();
-    console.log("User saved");
-    res.status(200).redirect("/signin");
+    await user.save();
+    res.status(200).json({msg: "Signup Successfull"});
   } catch (err) {
-    res.status(500).json({ err: "Server Error" });
+    res.status(500).json({ msg: "Server Error" });
   }
 });
 
@@ -37,19 +47,19 @@ router.post("/signin", async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email: email });
     if (!user) {
-      res.status(404).json({ err: "User Not Found" });
+      res.status(404).json({ msg: "Email Not Found" });
       return;
     }
 
     if (password !== user.password) {
-      res.status(404).json({ err: "Wrong Password" });
+      res.status(404).json({ msg: "Wrong Password" });
       return;
     }
 
     req.session.user = user.username;
-    res.status(200).redirect("/");
+    res.status(200).json({msg: "Signin Successfull"});
   } catch (err) {
-    res.status(500).json({ err: "Server Error" });
+    res.status(500).json({ msg: "Server Error" });
   }
 });
 
@@ -64,8 +74,7 @@ router.get("/", isAuthenticated, (req, res) => {
 
 router.get("/notes/home", isAuthenticated, async (req, res) => {
     console.log("req sess user : ", req.session.user);
-    const notes = await Note.find({ username: req.session.user })
-                            .sort({pinned: -1, createdAt: -1});
+    const notes = await Note.find({ username: req.session.user }).sort({pinned: -1, createdAt: -1});
     console.log("Notes : ", notes);
     res.render('homepage', {notes, user: req.session.user});
 })

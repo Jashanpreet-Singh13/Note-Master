@@ -53,7 +53,7 @@
   <body>
     <div class="form-container">
       <h1>Sign Up</h1>
-      <form method="post" action="/signup">
+      <form autocomplete="on" id="form">
         <div class="form-group">
           <label for="username" class="form-label">Username</label>
           <input
@@ -87,11 +87,47 @@
 
         <div class="form-footer">
           <p>Already have an account? <a href="/signin">Sign In</a></p>
-          <button type="submit" class="btn btn-primary">Create Account</button>
+          <button id="btn" type="submit" class="btn btn-primary">Create Account</button>
         </div>
       </form>
     </div>
 
-    <%- include("./partials/scripts") %>
+
+    <script>
+
+        document.querySelector('#form').addEventListener('submit', async (e) => {
+        e.preventDefault();   
+
+        let username = document.getElementById('username').value.trim();
+        let email = document.getElementById('email').value.trim();
+        let password = document.getElementById('password').value.trim();
+
+        if(!username || !email || !password) {
+          alert("All fields are required");
+          return;
+        }
+
+        let response = await fetch("/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({username, email, password})
+        })
+
+        let data = await response.json();
+
+        if(response.ok) {
+          document.getElementById('username').value = "";
+          document.getElementById('email').value = "";
+          document.getElementById('password').value = "";
+          alert(data.msg);
+          window.location.href = "/signin";
+        } else {
+          alert(data.msg);
+        }
+
+      })
+    </script>
   </body>
 </html>
